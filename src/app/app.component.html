@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico</title>
+</head>
+<body ng-app="">
+    
+<!-- Image and text -->
+    <nav class="navbar navbar-light bg-light">
+
+    
+        <img src="" class="d-inline-block align-top" alt="logo">
+
+        </nav>
+
+    <div class="alert alert-danger" role="alert">
+        <div class="d-flex justify-content-center">
+            <small><h4>{{ errorMensagem }}</h4></small>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <!-- #myForm="ngForm" (ngSubmit)="onSubmit()" -->
+        <form (ngSubmit)="transferir()">  
+
+            <div class="form-group">
+                <label for="registroAnestesico"><h4>Registro Anestésico</h4></label>
+                <input type="file" class="form-control-file" id="registroAnestesico" name="registroAnestesico"  (change)="intFileChange($event)" [(ngModel)]="registroAnestesico">
+            </div>
+    
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Data do Evento</label>
+                        <input type="text" #eventoData="ngModel" [class.is-invalid]="eventoData.invalid && eventoData.touched" class="form-control" pattern="([0-9oO]{2}[\/][0-9oO]{2}[\/][0-9oO]+)" maxlength="25" name="dataEvento" value="{{ data?.dataEvento }}" id="dataEvento" [(ngModel)]="dataEvento" required>
+                        <small class="text-danger" [class.d-none]="eventoData.valid || eventoData.untouched">E necessário a data do evento</small>
+                        <div class="form-text"></div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Médico</label>
+                        <input type="text" #medicoNome="ngModel" [class.is-invalid]="medicoNome.invalid && medicoNome.touched" class="form-control" value="{{ data?.medico }}" maxlength="100" name="medico" id="medico" [(ngModel)]="medico" required>
+                        <small class="text-danger" [class.d-none]="medicoNome.valid || medicoNome.untouched">E necessário o nome do médico</small>
+                        <div class="form-text"></div>
+                    </div>
+    
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">CRM</label>
+                        <input type="text" #crmMedico="ngModel" [class.is-invalid]="crmMedico.invalid && crmMedico.touched" class="form-control" value="{{data?.crm}}" name="crm" maxlength="25" id="crm" [(ngModel)]="crm" required>
+                        <small class="text-danger" [class.d-none]="crmMedico.valid || crmMedico.untouched">E necessário o CRM</small>
+                        <div class="form-text"></div>
+                    </div>
+    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Hospital</label>
+                        <input type="text" #hospitalNome="ngModel" [class.is-invalid]="hospitalNome.invalid && hospitalNome.touched" class="form-control" value="{{data?.nomeHospital}}" maxlength="100" name="nomeHospital" id="nomeHospital" [(ngModel)]="nomeHospital" required>
+                        <small class="text-danger" [class.d-none]="hospitalNome.valid || hospitalNome.untouched">E necessário o nome do Hospital</small>
+                        <div class="form-text"></div>
+                    </div>
+    
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">CNPJ</label>
+                        <input type="text" #cnpjNumero="ngModel" [class.is-invalid]="cnpjNumero.invalid && cnpjNumero.touched" class="form-control" pattern="\s*(\d{2,3}.\d{3}.\d{3}/\d{4}-\d{2})" maxlength="50" value="{{data?.cnpj}}" name="cnpj" id="cnpj" [(ngModel)]="cnpj" required>
+                        <small class="text-danger" [class.d-none]="cnpjNumero.valid || cnpjNumero.untouched">E necessário o CNPJ</small>
+                        <div class="form-text"></div>
+                    </div>
+    
+                </div>
+            </div>
+    
+            <div class="mb-3">
+                <label class="form-label">Paciente</label>
+                <input type="text" #pacienteNome="ngModel" [class.is-invalid]="pacienteNome.invalid && pacienteNome.touched" class="form-control" value="{{data?.nomePaciente}}" name="nomePaciente" maxlength="100" id="nomePaciente" [(ngModel)]="nomePaciente" required>
+                <small class="text-danger" [class.d-none]="pacienteNome.valid || pacienteNome.untouched">E necessário o nome do Paciente</small>
+                <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Convênio</label>
+                <input type="text" #convenioNome="ngModel" [class.is-invalid]="convenioNome.invalid && convenioNome.touched" class="form-control" value="{{data?.nomeConvenio}}" maxlength="100" name="nomeConvenio" id="nomeConvenio" [(ngModel)]="nomeConvenio" required>
+                <small class="text-danger" [class.d-none]="convenioNome.valid || convenioNome.untouched">E necessário o nome do Convênio</small>
+                <div class="form-text"></div>
+            </div>
+    
+            <div class="mb-3">
+                <label class="form-label">Acomodação</label>
+                <input type="text" #acomodocacaoNome="ngModel" [class.is-invalid]="acomodocacaoNome.invalid && acomodocacaoNome.touched" class="form-control" value="{{data?.acomodacao}}" name="acomodacao" id="acomodacao" maxlength="100" [(ngModel)]="acomodacao" required>
+                <small class="text-danger" [class.d-none]="acomodocacaoNome.valid || acomodocacaoNome.untouched">E necessário o nome da Acomodação</small>
+                <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Procedimento</label>
+                <input type="text" #procedimentoNome="ngModel" [class.is-invalid]="procedimentoNome.invalid && procedimentoNome.touched" class="form-control" value="{{data?.nomeProcedimento}}" name="nomeProcedimento" maxlength="25" id="nomeProcedimento" [(ngModel)]="nomeProcedimento" required>  
+                <small class="text-danger" [class.d-none]="procedimentoNome.valid || procedimentoNome.untouched">E necessário o Procedimento</small>
+                <div class="form-text"></div>
+            </div>
+
+                <div class="btn-group">
+                    <button type="button" type="submit" class="btn btn-primary" (click)="cadastrar()">Cadastrar</button>
+                    <button type="button" type="reset" class="btn btn-danger" (reset)="resetar()">Resetar</button>
+                </div>
+        </form>
+        <br><br>
+        
+    </div>
+
+
+    <!-- <button type="button" class="btn btn-primary btn-sm col-xs-2 margin-left" (click)="onClickGETolaMundo()">OlaMundo</button>
+    
+    <!-- Nome Hospital, CNPJ, Nome Paciente, Nome Médico, CRM, Procedimento, Acomodação, Convenio, Data do Evento-->
+    
+</body>
+</html>
